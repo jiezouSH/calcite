@@ -2533,7 +2533,7 @@ public class SqlToRelConverter {
     case AND:
     case EQUALS:
       final RexCall call = (RexCall) node;
-      List<RexNode> operands = Lists.newArrayList(call.getOperands());
+      List<RexNode> operands = new ArrayList<>(call.getOperands());
       for (int i = 0; i < operands.size(); i++) {
         RexNode operand = operands.get(i);
         result &= containOnlyCast(operand);
@@ -2559,8 +2559,8 @@ public class SqlToRelConverter {
     case AND:
     case EQUALS:
       RexCall call = (RexCall) node;
-      List<RexNode> list = Lists.newArrayList();
-      List<RexNode> operands = Lists.newArrayList(call.getOperands());
+      List<RexNode> list = new ArrayList<>();
+      List<RexNode> operands = new ArrayList<>(call.getOperands());
       for (int i = 0; i < operands.size(); i++) {
         RexNode operand = operands.get(i);
         final RexNode e =
@@ -2574,7 +2574,7 @@ public class SqlToRelConverter {
       return call;
     case CAST:
       call = (RexCall) node;
-      operands = Lists.newArrayList(call.getOperands());
+      operands = new ArrayList<>(call.getOperands());
       return operands.get(0);
     default:
       return node;

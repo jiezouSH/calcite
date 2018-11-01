@@ -19,6 +19,7 @@ package org.apache.calcite.plan;
 import org.apache.calcite.runtime.FlatLists;
 import org.apache.calcite.util.Pair;
 
+import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
 
 import java.util.AbstractList;
@@ -26,7 +27,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 /**
  * RelTraitSet represents an ordered set of {@link RelTrait}s.
