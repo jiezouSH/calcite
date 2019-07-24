@@ -771,7 +771,8 @@ public class SqlFunctions {
 
   /** SQL <code>/</code> operator applied to BigDecimal values. */
   public static BigDecimal divide(BigDecimal b0, BigDecimal b1) {
-    return (b0 == null || b1 == null)
+    /* OVERRIDE POINT */
+    return (b0 == null || b1 == null || BigDecimal.ZERO.compareTo(b1) == 0)
         ? null
         : b0.divide(b1, MathContext.DECIMAL64);
   }

@@ -1843,6 +1843,27 @@ public class RexImpTable {
         final Type type1 = expressions.get(1).getType();
         final SqlBinaryOperator op = (SqlBinaryOperator) call.getOperator();
         final Primitive primitive = Primitive.ofBoxOr(type0);
+        /* OVERRIDE POINT */
+        if (op == SqlStdOperatorTable.DIVIDE) {
+          Expression left = expressions.get(0);
+          Expression right = expressions.get(1);
+          if (type1 == BigDecimal.class) {
+            if (type0 != BigDecimal.class) {
+              left = RexToLixTranslator.convert(left, BigDecimal.class);
+            }
+            return Expressions.call(SqlFunctions.class, backupMethodName,
+                    Arrays.asList(left, right));
+          }
+          Expression zero = Expressions.constant(0, right.type);
+          Expression nulls = Expressions.constant(null);
+          Type type = translator.typeFactory.getJavaClass(call.getType());
+          return Expressions.condition(
+                  Expressions.equal(right, zero), nulls,
+                  Expressions.box(
+                  Types.castIfNecessary(type,
+                          Expressions.divide(left, right)
+                  )));
+        }
         if (primitive == null
             || type1 == BigDecimal.class
             || COMPARISON_OPERATORS.contains(op)
