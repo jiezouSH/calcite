@@ -418,6 +418,16 @@ public class SqlFunctions {
     return b0.stripTrailingZeros().equals(b1.stripTrailingZeros());
   }
 
+  /* OVERRIDE POINT */
+  public static boolean eqNum(Object b0, Object b1) {
+    if (b0.getClass().equals(b1.getClass())
+            && b0 instanceof Comparable && b0 instanceof Number) {
+      //noinspection unchecked
+      return ((Comparable) b0).compareTo(b1) == 0;
+    }
+    return b0.equals(b1);
+  }
+
   /** SQL <code>=</code> operator applied to Object values (including String;
    * neither side may be null). */
   public static boolean eq(Object b0, Object b1) {

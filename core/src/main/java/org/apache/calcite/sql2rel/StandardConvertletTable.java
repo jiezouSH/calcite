@@ -834,7 +834,17 @@ public class StandardConvertletTable extends ReflectiveConvertletTable {
     final List<RexNode> exprs =
         convertExpressionList(cx, operands, consistency);
     RelDataType type = rexBuilder.deriveReturnType(op, exprs);
-    return rexBuilder.makeCall(type, op, RexUtil.flatten(exprs, op));
+    /* OVERRIDE POINT */
+    RexNode rexNode = rexBuilder.makeCall(type, op, RexUtil.flatten(exprs, op));
+    if (op != SqlStdOperatorTable.DIVIDE || exprs.size() != 2) {
+      return rexNode;
+    }
+    RexLiteral nulls = rexBuilder.makeNullLiteral(type);
+    RexNode right = exprs.get(1);
+    RelDataType rightType = right.getType();
+    RexNode zero0 = rexBuilder.makeZeroLiteral(rightType);
+    RexNode condition = rexBuilder.makeCall(SqlStdOperatorTable.EQUALS_NUM, right, zero0);
+    return rexBuilder.makeCall(SqlStdOperatorTable.CASE, condition, nulls, rexNode);
   }
 
   private List<Integer> elseArgs(int count) {

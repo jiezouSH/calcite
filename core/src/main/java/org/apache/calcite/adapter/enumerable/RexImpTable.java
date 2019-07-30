@@ -1843,6 +1843,13 @@ public class RexImpTable {
         final Type type1 = expressions.get(1).getType();
         final SqlBinaryOperator op = (SqlBinaryOperator) call.getOperator();
         final Primitive primitive = Primitive.ofBoxOr(type0);
+        /* OVERRIDE POINT */
+        if (op == SqlStdOperatorTable.EQUALS_NUM) {
+          Expression left = expressions.get(0);
+          Expression right = expressions.get(1);
+          return Expressions.call(SqlFunctions.class, "eqNum",
+                  Arrays.asList(Expressions.box(left), Expressions.box(right)));
+        }
         if (primitive == null
             || type1 == BigDecimal.class
             || COMPARISON_OPERATORS.contains(op)
