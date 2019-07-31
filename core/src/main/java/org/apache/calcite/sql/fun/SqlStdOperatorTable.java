@@ -240,19 +240,33 @@ public class SqlStdOperatorTable extends ReflectiveSqlOperatorTable {
           ReturnTypes.DYADIC_STRING_SUM_PRECISION_NULLABLE,
           null,
           OperandTypes.STRING_SAME_SAME);
+//  static final SqlTypeFactoryImpl FAC =
+//          new SqlTypeFactoryImpl(RelDataTypeSystem.DEFAULT);
 
-  /**
-   * Arithmetic division operator, '<code>/</code>'.
-   */
+//  static final ScalarFunction DIV = ScalarFunctionImpl.create(SqlFunctions.class, "div");
+
   public static final SqlBinaryOperator DIVIDE =
-      new SqlBinaryOperator(
-          "/",
-          SqlKind.DIVIDE,
-          60,
-          true,
-          ReturnTypes.QUOTIENT_NULLABLE,
-          InferTypes.FIRST_KNOWN,
-          OperandTypes.DIVISION_OPERATOR);
+          new SqlBinaryOperator(
+                    "/",
+                  SqlKind.DIVIDE,
+                    60,
+                    true,
+                    ReturnTypes.explicit(SqlTypeName.ANY),
+//                  CalciteCatalogReader.infer(DIV),
+                  null,
+                  OperandTypes.DIVISION_OPERATOR);
+//  /**
+//   * Arithmetic division operator, '<code>/</code>'.
+//   */
+//  public static final SqlBinaryOperator DIVIDE =
+//      new SqlBinaryOperator(
+//          "/",
+//          SqlKind.DIVIDE,
+//          60,
+//          true,
+//          ReturnTypes.QUOTIENT_NULLABLE,
+//          InferTypes.FIRST_KNOWN,
+//          OperandTypes.DIVISION_OPERATOR);
 
   /**
    * Arithmetic remainder operator, '<code>%</code>',

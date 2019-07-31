@@ -355,7 +355,7 @@ public class CalciteCatalogReader implements Prepare.CatalogReader {
     }
   }
 
-  private static SqlReturnTypeInference infer(final ScalarFunction function) {
+  public static SqlReturnTypeInference infer(final ScalarFunction function) {
     return new SqlReturnTypeInference() {
       public RelDataType inferReturnType(SqlOperatorBinding opBinding) {
         final RelDataTypeFactory typeFactory = opBinding.getTypeFactory();

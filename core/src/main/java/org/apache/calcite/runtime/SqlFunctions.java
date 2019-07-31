@@ -769,6 +769,27 @@ public class SqlFunctions {
         : (b0.longValue() / b1.longValue());
   }
 
+  public static BigDecimal div(Object col11, Object col22) {
+    if (!(col11 instanceof Number) || !(col22 instanceof Number)) {
+      return null;
+    }
+//      if (col11 == null) {
+//        return null;
+//      }
+//      if (col22 == null) {
+//        return null;
+//      }
+    Number col1 = (Number) col11;
+    Number col2 = (Number) col22;
+    try {
+      if (col1 instanceof Double && col2 instanceof Double) {
+        return new BigDecimal((Double) col1 / (Double) col2);
+      }
+      return new BigDecimal(col1.doubleValue()).divide(new BigDecimal(col2.doubleValue()));
+    } catch (Exception e) {
+      return null;
+    }
+  }
   /** SQL <code>/</code> operator applied to BigDecimal values. */
   public static BigDecimal divide(BigDecimal b0, BigDecimal b1) {
     return (b0 == null || b1 == null)

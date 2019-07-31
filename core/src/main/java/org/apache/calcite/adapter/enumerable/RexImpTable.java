@@ -1842,6 +1842,12 @@ public class RexImpTable {
         final Type type0 = expressions.get(0).getType();
         final Type type1 = expressions.get(1).getType();
         final SqlBinaryOperator op = (SqlBinaryOperator) call.getOperator();
+        if (op == SqlStdOperatorTable.DIVIDE) {
+          Expression left = Expressions.box(expressions.get(0));
+          Expression right = Expressions.box(expressions.get(1));
+          return Expressions.call(SqlFunctions.class, "divideAny",
+                  Arrays.asList(left, right));
+        }
         final Primitive primitive = Primitive.ofBoxOr(type0);
         if (primitive == null
             || type1 == BigDecimal.class
