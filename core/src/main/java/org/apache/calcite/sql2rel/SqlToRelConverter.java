@@ -1527,7 +1527,8 @@ public class SqlToRelConverter {
       if (leftKeys.size() == 1) {
         /* OVERRIDE POINT */
         //https://github.com/Kyligence/KAP/issues/13872
-        if (op == SqlStdOperatorTable.IN || op == SqlStdOperatorTable.NOT_IN) {
+        if ((op == SqlStdOperatorTable.IN || op == SqlStdOperatorTable.NOT_IN)
+                && SqlTypeName.CHAR_TYPES.contains(leftKeys.get(0).getType().getSqlTypeName())) {
           List<SqlNode> rex = ImmutableList.of(leftKeyNode, rightVals);
           final List<RexNode> expr = StandardConvertletTable.convertExpressionList(bb, rex,
                           LEAST_RESTRICTIVE_NO_CONVERT_TO_VARYING);
